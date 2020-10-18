@@ -23,8 +23,8 @@ def handleKeys(settings):
 			if event.key == pygame.K_ESCAPE:
 				pygame.quit()
 				sys.exit()
-		elif event.type == pygame.KEYUP:
-			if event.key == pygame.K_SPACE and not settings.running:
+		elif event.type == pygame.KEYUP and not settings.running:
+			if event.key == pygame.K_SPACE:
 				if settings.reset:
 					settings.running = True
 				elif not settings.reset:
