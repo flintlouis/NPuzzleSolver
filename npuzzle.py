@@ -2,12 +2,8 @@ import numpy as np
 from info import handleKeys
 
 class NPuzzle():
-	# List of nodes that are still available to visit
-	openset = []
-	# List of nodes that are already visited
-	closedset = []
-
 	def __init__(self, size, puzzle=None):
+		self.reset()
 		self.size = size
 		self.x, self.y = size
 		if not (puzzle is None):
@@ -17,7 +13,9 @@ class NPuzzle():
 		self.end = self.fill_spiral()
 
 	def reset(self):
-		self.openset = []
+		# List of nodes that are still available to visit
+		self.openset = set({})
+		# List of nodes that are already visited
 		self.closedset = []
 
 	def init_puzzle(self):
@@ -125,17 +123,21 @@ class NPuzzle():
 	def solve_puzzle(self, settings):
 		from node import Node
 		# Put current node in openset
-		self.openset.append(Node(np.copy(self.puzzle), self.end))
+		self.openset.add(Node(np.copy(self.puzzle), self.end))
 		# While openset is not empty
 		while self.openset:
 			handleKeys(settings)
+			start = True
 			# Find node with the lowest f in openset
-			current = self.openset[0]
 			for node in self.openset:
-				if node.f < current.f:
+				if start:
+					current = node
+					start = False
+				elif node.f < current.f:
 					current = node
 			# Remove node from openset and add to closedset
-			self.closedset.append(self.openset.pop(self.openset.index(current)).puzzle)
+			self.openset.remove(current)
+			self.closedset.append(current.puzzle)
 			# If current.puzzle is in solved state stop the while loop
 			if (current.puzzle == self.end).all():
 				return current
@@ -158,6 +160,6 @@ class NPuzzle():
 				# Add to openset
 				else:
 					node = Node(neighbor, self.end, g, current)
-					self.openset.append(node)
+					self.openset.add(node)
 
 		return False
