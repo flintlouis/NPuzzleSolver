@@ -155,7 +155,8 @@ class NPuzzle():
 				# Check if neigbor is in openset, and if so if it has a lower g then the current one
 				node = self.check_set(self.openset, neighbor)
 				if node:
-					if g < node.g:
+					f = node.h + g
+					if f < node.f:
 						node.update(g, current)
 				# Add to openset
 				else:
