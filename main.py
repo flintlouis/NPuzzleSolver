@@ -9,7 +9,7 @@ from npuzzle import NPuzzle
 def initPygame(screenWidth, screenHeight):
 	# Initiate Pygame
 	pygame.init()
-	pygame.display.set_caption("Name")
+	pygame.display.set_caption("NPuzzle")
 	screen = pygame.display.set_mode((screenWidth, screenHeight), 0, 32)
 	surface = pygame.Surface(screen.get_size())
 	surface = surface.convert()
